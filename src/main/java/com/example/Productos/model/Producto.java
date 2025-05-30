@@ -14,7 +14,7 @@ public class Producto {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Schema(description = "Identificador único del producto", example = "101")
+    @Schema(description = "Identificador único del producto", example = "1")
     private Long id;
 
     @Column(nullable = false)
