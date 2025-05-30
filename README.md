@@ -80,7 +80,7 @@ Productos/
    ```
 2. Compila el proyecto:
    ```sh
-   ./mvnw clean package
+   ./mvn clean package
    ```
 
 ## Configuración
@@ -120,14 +120,14 @@ Ejecuta las pruebas unitarias con:
 ## Docker
 Para construir y ejecutar el microservicio junto con su base de datos usando Docker Compose:
 
-1. Asegúrate de tener el archivo `docker-compose.yml` en el directorio raíz (fuera de la carpeta del proyecto `Productos`).
+1. Asegúrate de tener el archivo `docker-compose.yml` en el directorio raíz (fuera de la carpeta del proyecto `producto-service`).
 2. Ejecuta el siguiente comando desde la ubicación del archivo `docker-compose.yml`:
    ```sh
-   docker-compose up --build
+   docker-compose up --build -d
    ```
    Esto levantará:
    - Una base de datos PostgreSQL para productos (`db_productos`)
-   - El microservicio de productos (`productos-service`)
+   - El microservicio de productos (`producto-service`)
 
 3. Para detener y eliminar los contenedores, ejecuta:
    ```sh
