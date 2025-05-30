@@ -118,11 +118,26 @@ Ejecuta las pruebas unitarias con:
 ```
 
 ## Docker
-Para construir y ejecutar el contenedor Docker:
-```sh
-docker build -t productos-app .
-docker run -p 8080:8080 productos-app
-```
+Para construir y ejecutar el microservicio junto con su base de datos usando Docker Compose:
+
+1. Asegúrate de tener el archivo `docker-compose.yml` en el directorio raíz (fuera de la carpeta del proyecto `Productos`).
+2. Ejecuta el siguiente comando desde la ubicación del archivo `docker-compose.yml`:
+   ```sh
+   docker-compose up --build
+   ```
+   Esto levantará:
+   - Una base de datos PostgreSQL para productos (`db_productos`)
+   - El microservicio de productos (`productos-service`)
+
+3. Para detener y eliminar los contenedores, ejecuta:
+   ```sh
+   docker-compose down
+   ```
+
+> **Nota:**
+> - El microservicio se conectará automáticamente a la base de datos definida en el servicio `db_productos`.
+> - Puedes acceder a la API en [http://localhost:8080](http://localhost:8080) y a la base de datos PostgreSQL en el puerto 5432.
+> - Si tienes otros microservicios (como Inventario), puedes agregarlos al mismo archivo `docker-compose.yml` siguiendo la estructura mostrada.
 
 ## Arquitectura
 El microservicio sigue una arquitectura en capas:
