@@ -188,7 +188,7 @@ MS ..> Config : Configuración general
 ```http
 GET /api/productos HTTP/1.1
 Host: localhost:8080
-X-API-KEY: productos_secreta_12345
+X-API-KEY: tu_api_key
 ```
 
 ---
