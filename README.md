@@ -69,7 +69,7 @@ Edita el archivo `src/main/resources/application.properties` para configurar la 
 spring.datasource.url=jdbc:postgresql://localhost:5432/productosdb
 spring.datasource.username=postgres
 spring.datasource.password=tu_password
-service.api.key=productos_secreta_12345
+service.api.key=tu_api_key
 ```
 
 ---
@@ -125,6 +125,10 @@ El microservicio sigue una arquitectura en capas, separando responsabilidades pa
 
 ## Diagrama de Interacción entre Servicios (PlantUML)
 
+<p align="center">
+  <img src="PlantUML_Productos.png" alt="Diagrama de Interacción entre Servicios" width="700"/>
+</p>
+
 ```plantuml
 @startuml
 actor Cliente as "Cliente (Postman/Frontend)"
@@ -149,7 +153,6 @@ Controller ..> Seguridad : Filtrado API Key
 MS ..> Config : Configuración general
 @enduml
 ```
-
 ---
 
 ## Seguridad y Manejo de Errores
