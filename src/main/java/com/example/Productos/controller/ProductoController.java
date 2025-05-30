@@ -3,7 +3,6 @@ package com.example.Productos.controller;
 import com.example.Productos.model.Producto;
 import com.example.Productos.service.ProductoService;
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -15,11 +14,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-
 import java.util.List;
 
 @RestController
@@ -27,6 +21,9 @@ import java.util.List;
 @Tag(name = "Productos", description = "Operaciones relacionadas con productos")
 public class ProductoController {
 
+    /**
+     * Servicio para la gestión de productos.
+     */
     @Autowired
     private ProductoService productoService;
 
@@ -41,6 +38,7 @@ public class ProductoController {
         return new ResponseEntity<>(productos, HttpStatus.OK);
     }
 
+    
     @Operation(summary = "Obtener un producto por su ID", description = "Recupera los detalles de un producto específico utilizando su ID.")
     @SecurityRequirement(name = "api_key")
     @ApiResponses(value = {
@@ -55,21 +53,9 @@ public class ProductoController {
         return productoService.findById(id)
                 .map(producto -> new ResponseEntity<>(producto, HttpStatus.OK))
                 .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
-        /*
-        // Simular un retraso prolongado que exceda el readTimeout de Inventario
-        try {
-
-            // Configurado en Inventario-Service: readTimeout=10000ms (10 segundos)
-            Thread.sleep(12000); // Espera 12 segundos para simular un timeout
-        } catch (InterruptedException e) {
-            Thread.currentThread().interrupt(); // Restaura el estado de interrupción
-        }
-        return productoService.findById(id)
-                .map(producto -> new ResponseEntity<>(producto, HttpStatus.OK))
-                .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
-        */
     }
 
+    
     @Operation(summary = "Crear un nuevo producto", description = "Añade un nuevo producto al catálogo. Requiere todos los detalles del producto.")
     @SecurityRequirement(name = "api_key")
     @ApiResponses(value = {
@@ -84,6 +70,7 @@ public class ProductoController {
         return new ResponseEntity<>(newProducto, HttpStatus.CREATED);
     }
 
+    
     @Operation(summary = "Actualizar un producto existente", description = "Actualiza los detalles de un producto existente por su ID.")
     @SecurityRequirement(name = "api_key")
     @ApiResponses(value = {
@@ -102,6 +89,7 @@ public class ProductoController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
+    
 
     @Operation(summary = "Eliminar un producto por su ID", description = "Elimina un producto del catálogo utilizando su ID.")
     @SecurityRequirement(name = "api_key")

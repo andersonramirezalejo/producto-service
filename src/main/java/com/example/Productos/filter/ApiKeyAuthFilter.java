@@ -1,4 +1,4 @@
-package com.example.Productos.filter; // Or wherever your filter is
+package com.example.Productos.filter; 
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -11,53 +11,73 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 
+/**
+ * Filtro de autenticación para validar la API Key en las solicitudes HTTP.
+ * <p>
+ * Este filtro verifica que todas las solicitudes (excepto las rutas excluidas)
+ * incluyan la cabecera especificada con la API Key correcta. Si la clave es inválida
+ * o falta, la solicitud es rechazada con un error 401 (Unauthorized).
+ * </p>
+ */
 public class ApiKeyAuthFilter extends OncePerRequestFilter {
 
     private final String apiKeyHeaderName;
     private final String expectedApiKey;
-
-    // Paths to exclude from API Key authentication
     private static final List<String> EXCLUDE_PATHS = Arrays.asList(
             "/swagger-ui.html",
-            "/swagger-ui/", // Important for the root of swagger-ui
+            "/swagger-ui/", 
             "/swagger-ui/**",
             "/v3/api-docs/**",
             "/webjars/**",
             "/swagger-resources/**",
-            "/error" // Spring Boot error page
+            "/error" 
     );
 
+    /**
+     * Constructor del filtro.
+     *
+     * @param apiKeyHeaderName Nombre de la cabecera HTTP donde se espera la API Key.
+     * @param expectedApiKey   Valor esperado de la API Key.
+     */
     public ApiKeyAuthFilter(String apiKeyHeaderName, String expectedApiKey) {
         this.apiKeyHeaderName = apiKeyHeaderName;
         this.expectedApiKey = expectedApiKey;
     }
 
+    /**
+     * Lógica principal del filtro. Valida la API Key en las solicitudes entrantes,
+     * permitiendo el paso solo si es correcta o si la ruta está excluida.
+     *
+     * @param request     Solicitud HTTP entrante.
+     * @param response    Respuesta HTTP.
+     * @param filterChain Cadena de filtros de Spring.
+     * @throws ServletException en caso de error de filtro.
+     * @throws IOException      en caso de error de entrada/salida.
+     */
     @Override
     protected void doFilterInternal(HttpServletRequest request,
                                     HttpServletResponse response,
                                     FilterChain filterChain) throws ServletException, IOException {
 
         String requestUri = request.getRequestURI();
-
-        // Check if the current request URI starts with any of the excluded paths
         boolean isExcluded = EXCLUDE_PATHS.stream().anyMatch(path -> {
             if (path.endsWith("/**")) {
-                return requestUri.startsWith(path.substring(0, path.length() - 3)); // Check prefix for /**
+                return requestUri.startsWith(path.substring(0, path.length() - 3)); 
             }
-            return requestUri.equals(path); // Exact match
+            return requestUri.equals(path); 
         });
 
         if (isExcluded) {
-            filterChain.doFilter(request, response); // Bypass authentication for excluded paths
+            filterChain.doFilter(request, response); 
             return;
         }
 
-        // Existing API Key authentication logic
+        
         String apiKey = request.getHeader(apiKeyHeaderName);
 
         if (apiKey == null || !apiKey.equals(expectedApiKey)) {
             response.setStatus(HttpStatus.UNAUTHORIZED.value());
-            response.getWriter().write("Unauthorized: Missing or Invalid API Key");
+            response.getWriter().write("No autorizado: Falta o clave de API no válida");
             return;
         }
 

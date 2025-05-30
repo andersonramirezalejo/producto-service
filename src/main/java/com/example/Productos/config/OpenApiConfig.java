@@ -8,10 +8,17 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.security.SecurityScheme;
 import org.springframework.context.annotation.Configuration;
 
+/**
+ * Configuración de OpenAPI para la documentación de la API de Productos.
+ * <p>
+ * Esta clase define la información básica de la API y el esquema de seguridad
+ * basado en una API Key enviada en el header "X-API-KEY".
+ * </p>
+ */
 @Configuration
 @OpenAPIDefinition(
         info = @Info(title = "API de Productos", version = "1.0", description = "Documentación de la API de Microservicio de Productos"),
-        security = @SecurityRequirement(name = "X-API-KEY") // Aplicar globalmente para todos los endpoints
+        security = @SecurityRequirement(name = "X-API-KEY")
 )
 @SecurityScheme(
         name = "X-API-KEY",
@@ -20,6 +27,5 @@ import org.springframework.context.annotation.Configuration;
         paramName = "X-API-KEY",
         description = "Requiere una X-API-KEY para acceder a los endpoints."
 )
-public class OpenApiConfig {
-    // No se necesita lógica adicional en el bean
+public class OpenApiConfig {    
 }
